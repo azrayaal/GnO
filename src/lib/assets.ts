@@ -1,0 +1,16 @@
+export const assets = {
+  logo: '/assets/logo.png',
+  logoIcon: '/assets/favicon-192.png',
+  logoWhite: '/assets/logo1.png',
+  logoBanner: '/assets/logo-banner.png',
+  heroFamily: '/assets/hero-family3.png',
+  heroDesign: '/assets/hero-design.png',
+  lifestyleGaming: '/assets/lifestyle-gaming.png',
+  lifestyleFamily: '/assets/hero-family.png',
+  product1: '/assets/product-1.png',
+  product2: '/assets/product-2.png',
+  product3: '/assets/product-3.png',
+  icon1: '/assets/icon1.png',
+  icon2: '/assets/icon2.png',
+  icon3: '/assets/icon3.png',
+} as const
