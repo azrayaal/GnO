@@ -6,9 +6,10 @@ import { assets } from '@/lib/assets'
 import { cn } from '@/lib/utils'
 
 const navLinks = [
-  { label: 'Products', to: '/#products' },
-  { label: 'Supports', to: '/contact' },
-  { label: 'About Us', to: '/about' },
+  { label: 'Home', to: '/' },
+  { label: 'Product', to: '/products' },
+  { label: 'About GnO', to: '/about' },
+  { label: 'Contact', to: '/contact' },
 ]
 
 export function Navbar() {
@@ -23,6 +24,7 @@ export function Navbar() {
             <NavLink
               key={link.to}
               to={link.to}
+              end={link.to === '/'}
               className={({ isActive }) =>
                 cn(
                   'rounded-full px-4 py-2 text-sm font-medium text-neutral-600 transition-colors hover:text-black',
@@ -36,7 +38,7 @@ export function Navbar() {
         </nav>
 
         <Link to="/" className="absolute left-1/2 -translate-x-1/2">
-          <img src={assets.logoBanner} alt="Simbadda" className="h-8 w-auto sm:h-9" />
+          <img src={assets.logoNavbar} alt="GnO" className="h-8 w-auto sm:h-9" />
         </Link>
 
         <div className="ml-auto flex items-center gap-2">
@@ -77,7 +79,7 @@ export function Navbar() {
             <div className="mx-auto flex max-w-7xl gap-2 px-4 py-3 sm:px-6">
               <input
                 type="search"
-                placeholder="Cari produk, berita, atau dokumentasi..."
+                placeholder="Cari pelumas, bundle, atau merch GnO..."
                 className="flex-1 rounded-full border border-neutral-200 bg-white px-4 py-2.5 text-sm outline-none focus:border-black"
               />
               <button type="button" className="rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white">
@@ -106,12 +108,6 @@ export function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Link to="/news" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50">
-              News
-            </Link>
-            <Link to="/gallery" onClick={() => setMobileOpen(false)} className="block rounded-lg px-3 py-2.5 text-sm font-medium text-neutral-700 hover:bg-neutral-50">
-              Gallery
-            </Link>
           </motion.nav>
         )}
       </AnimatePresence>

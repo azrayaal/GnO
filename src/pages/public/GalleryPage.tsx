@@ -18,7 +18,7 @@ export function GalleryPage() {
       <Breadcrumb items={[{ label: 'Gallery' }]} />
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl font-bold text-black sm:text-4xl">Gallery</h1>
-        <p className="mt-2 text-neutral-600">Dokumentasi produk, acara, dan aktivitas Simbadda Group.</p>
+        <p className="mt-2 text-neutral-600">Dokumentasi produk, distribusi, dan aktivitas brand GnO.</p>
       </motion.div>
 
       <div className="mt-8 flex flex-wrap gap-2">

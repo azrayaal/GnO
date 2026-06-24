@@ -1,13 +1,10 @@
-import { forwardRef, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import { useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { assets } from '@/lib/assets'
 import { cn, formatPrice } from '@/lib/utils'
 import { getProductById } from '@/data/products'
-import type { Product } from '@/types'
 
 const FRAME_PADDING = 8
-const HOTSPOT_BUTTON_RADIUS = 10
-const TOOLTIP_BUTTON_PADDING = 2
 
 type Hotspot = {
   id: string
@@ -21,20 +18,15 @@ type ImageBounds = {
   offsetY: number
   width: number
   height: number
-  containerWidth: number
-  containerHeight: number
 }
 
-const gamingHotspots: Hotspot[] = [
-  { id: 'headphones', top: '30%', left: '58%', productId: '3' },
-  { id: 'speaker', top: '75%', left: '15%', productId: '1' },
-  { id: 'pc', top: '80%', left: '50%', productId: '2' },
+const fieldOpsHotspots: Hotspot[] = [
+  { id: 'lubricant', top: '42%', left: '58%', productId: '1' },
+  { id: 'bundle', top: '70%', left: '16%', productId: '5' },
+  { id: 'industrial', top: '76%', left: '52%', productId: '2' },
 ]
 
-const familyHotspots: Hotspot[] = [
-  { id: 'speaker', top: '75%', left: '80%', productId: '1' },
-]
-
+const logisticsHotspots: Hotspot[] = [{ id: 'merch', top: '72%', left: '78%', productId: '3' }]
 
 function parsePercent(value: string): number {
   return Number.parseFloat(value) / 100
@@ -55,8 +47,6 @@ function getObjectCoverBounds(
     offsetY: (containerHeight - height) / 2,
     width,
     height,
-    containerWidth,
-    containerHeight,
   }
 }
 
@@ -67,28 +57,11 @@ function getHotspotPosition(spot: Hotspot, bounds: ImageBounds) {
   }
 }
 
-function computeTooltipPosition(
-  hotspotX: number,
-  hotspotY: number,
-  tooltipWidth: number,
-  tooltipHeight: number,
-  bounds: ImageBounds
-) {
-  const maxLeft = bounds.containerWidth - tooltipWidth - FRAME_PADDING
-  const maxTop = bounds.containerHeight - tooltipHeight - FRAME_PADDING
-
-  let left = hotspotX - tooltipWidth / 2
-  left = Math.max(FRAME_PADDING, Math.min(left, maxLeft))
-
-  const gapFromButton = HOTSPOT_BUTTON_RADIUS + TOOLTIP_BUTTON_PADDING
-
-  let top = hotspotY + gapFromButton
-  if (top + tooltipHeight > bounds.containerHeight - FRAME_PADDING) {
-    top = hotspotY - gapFromButton - tooltipHeight
+function clampTooltipPosition(x: number, y: number, width: number, height: number, bounds: ImageBounds) {
+  return {
+    left: Math.max(FRAME_PADDING, Math.min(x, bounds.width - width - FRAME_PADDING)),
+    top: Math.max(FRAME_PADDING, Math.min(y, bounds.height - height - FRAME_PADDING)),
   }
-  top = Math.max(FRAME_PADDING, Math.min(top, maxTop))
-
-  return { top, left }
 }
 
 function HotspotButton({
@@ -101,20 +74,17 @@ function HotspotButton({
   style: CSSProperties
 }) {
   return (
-    <div
-      style={style}
-      className="absolute z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2"
-    >
+    <div style={style} className="absolute z-10 h-5 w-5 -translate-x-1/2 -translate-y-1/2">
       <span
         aria-hidden
         className={cn(
-          'absolute inset-0 rounded-full bg-white/50 animate-hotspot-ripple',
+          'absolute inset-0 animate-hotspot-ripple rounded-full bg-white/50',
           active && 'bg-white/70'
         )}
       />
       <span
         aria-hidden
-        className="absolute inset-0 rounded-full bg-white/35 animate-hotspot-ripple [animation-delay:1s]"
+        className="absolute inset-0 animate-hotspot-ripple rounded-full bg-white/35 [animation-delay:1s]"
       />
       <button
         type="button"
@@ -129,31 +99,6 @@ function HotspotButton({
     </div>
   )
 }
-
-const ProductTooltip = forwardRef<HTMLDivElement, { product: Product; style: CSSProperties }>(
-  function ProductTooltip({ product, style }, ref) {
-    const shortName = product.name.replace(' Lifestyle Speaker', '')
-
-    return (
-      <div
-        ref={ref}
-        style={style}
-        className="absolute z-20 w-[min(280px,calc(100%-1rem))] max-w-[calc(100%-1rem)] animate-tooltip-enter rounded-2xl bg-white p-4 shadow-[0_12px_40px_rgba(0,0,0,0.18)]"
-      >
-        <p className="text-xs text-neutral-500">{product.label ?? product.category}</p>
-        <p className="mt-1 text-sm font-bold text-black">{shortName}</p>
-        <p className="text-xs text-neutral-600">Lifestyle Speaker</p>
-        <p className="mt-2 text-sm font-semibold text-black">{formatPrice(product.price)}</p>
-        <Link
-          to={`/products/${product.slug}`}
-          className="mt-3 inline-flex animate-cta-pulse rounded-full bg-black px-4 py-2 text-xs font-medium text-white transition hover:scale-105 hover:bg-neutral-800 active:scale-95"
-        >
-          Explore More
-        </Link>
-      </div>
-    )
-  }
-)
 
 function CaptionPill({ label }: { label: string }) {
   return (
@@ -178,11 +123,8 @@ function LifestyleImagePanel({
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const imageRef = useRef<HTMLImageElement>(null)
-  const tooltipRef = useRef<HTMLDivElement>(null)
-
   const [activeHotspot, setActiveHotspot] = useState(defaultHotspotId ?? hotspots[0]?.id ?? '')
   const [imageBounds, setImageBounds] = useState<ImageBounds | null>(null)
-  const [tooltipStyle, setTooltipStyle] = useState<CSSProperties>({ visibility: 'hidden' })
 
   const activeSpot = activeHotspot ? hotspots.find((spot) => spot.id === activeHotspot) : undefined
   const activeProduct = activeSpot?.productId ? getProductById(activeSpot.productId) : undefined
@@ -225,30 +167,12 @@ function LifestyleImagePanel({
     }
   }, [imageSrc])
 
-  useLayoutEffect(() => {
-    if (!activeSpot || !activeProduct || !imageBounds) {
-      setTooltipStyle({ visibility: 'hidden' })
-      return
-    }
-
-    const tooltip = tooltipRef.current
-    if (!tooltip) return
-
-    const hotspot = getHotspotPosition(activeSpot, imageBounds)
-    const position = computeTooltipPosition(
-      hotspot.x,
-      hotspot.y,
-      tooltip.offsetWidth,
-      tooltip.offsetHeight,
-      imageBounds
-    )
-
-    setTooltipStyle({
-      top: position.top,
-      left: position.left,
-      visibility: 'visible',
-    })
-  }, [activeHotspot, activeProduct, imageBounds])
+  let tooltipStyle: CSSProperties = { visibility: 'hidden' }
+  if (activeSpot && imageBounds) {
+    const pos = getHotspotPosition(activeSpot, imageBounds)
+    const clamped = clampTooltipPosition(pos.x - 130, pos.y - 120, 260, 120, imageBounds)
+    tooltipStyle = { left: clamped.left, top: clamped.top, visibility: 'visible' }
+  }
 
   return (
     <div
@@ -278,12 +202,20 @@ function LifestyleImagePanel({
         })}
 
       {activeSpot && activeProduct && imageBounds && (
-        <ProductTooltip
-          key={activeSpot.id}
-          product={activeProduct}
+        <div
           style={tooltipStyle}
-          ref={tooltipRef}
-        />
+          className="absolute z-20 w-[min(280px,calc(100%-1rem))] max-w-[calc(100%-1rem)] animate-tooltip-enter rounded-2xl bg-white p-4 shadow-[0_12px_40px_rgba(0,0,0,0.18)]"
+        >
+          <p className="text-xs text-neutral-500">{activeProduct.label ?? activeProduct.category}</p>
+          <p className="mt-1 text-sm font-bold text-black">{activeProduct.name}</p>
+          <p className="mt-2 text-sm font-semibold text-black">{formatPrice(activeProduct.price)}</p>
+          <Link
+            to={`/products/${activeProduct.slug}`}
+            className="mt-3 inline-flex rounded-full bg-black px-4 py-2 text-xs font-medium text-white transition hover:bg-neutral-800"
+          >
+            Explore More
+          </Link>
+        </div>
       )}
 
       <CaptionPill label={caption} />
@@ -294,25 +226,25 @@ function LifestyleImagePanel({
 export function LifestyleJourneySection() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <h3 className="mx-auto max-w-3xl text-center text-xl leading-snug text-black sm:text-xl font-semibold">
-        In every moment Sambadda always on your journey
+      <h3 className="mx-auto max-w-3xl text-center text-xl font-semibold leading-snug text-black sm:text-xl">
+        GnO support every journey: dari lapangan, gudang, sampai pengiriman ke lokasi Anda.
       </h3>
 
       <div className="mt-10 grid gap-4 lg:grid-cols-2 lg:gap-6">
         <LifestyleImagePanel
           imageSrc={assets.lifestyleGaming}
-          imageAlt="Gaming setup with Simbadda audio"
-          caption="Embrace Your Skill"
-          hotspots={gamingHotspots}
-          defaultHotspotId="speaker"
+          imageAlt="GnO field operation and product setup"
+          caption="Field Ready"
+          hotspots={fieldOpsHotspots}
+          defaultHotspotId="lubricant"
         />
 
         <LifestyleImagePanel
           imageSrc={assets.lifestyleFamily}
-          imageAlt="Gaming setup with Simbadda audio"
-          caption="Fun Theater"
-          hotspots={familyHotspots}
-          defaultHotspotId="speaker"
+          imageAlt="GnO logistics and fulfillment"
+          caption="Fast Fulfillment"
+          hotspots={logisticsHotspots}
+          defaultHotspotId="merch"
         />
       </div>
     </section>

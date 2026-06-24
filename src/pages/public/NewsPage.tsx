@@ -25,7 +25,7 @@ export function NewsPage() {
       <Breadcrumb items={[{ label: 'News' }]} />
       <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className="text-3xl font-bold text-black sm:text-4xl">News & Articles</h1>
-        <p className="mt-2 text-neutral-600">Informasi resmi produk, kemitraan, dan kegiatan Simbadda Group.</p>
+        <p className="mt-2 text-neutral-600">Update produk, pengiriman, dan aktivitas brand GnO.</p>
       </motion.div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

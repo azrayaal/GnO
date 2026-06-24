@@ -37,19 +37,11 @@ export function ProductCarousel() {
   const safePage = Math.min(page, totalPages - 1)
   const visible = filtered.slice(safePage * itemsPerPage, safePage * itemsPerPage + itemsPerPage)
 
-  useEffect(() => {
-    setPage(0)
-  }, [activeCategory, itemsPerPage])
-
-  useEffect(() => {
-    if (page >= totalPages) setPage(Math.max(0, totalPages - 1))
-  }, [page, totalPages])
-
   return (
     <section id="products" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
       <p className="mx-auto max-w-3xl text-center text-base font-semibold leading-snug text-black sm:text-lg lg:text-2xl">
-        Discover Simbadda&apos;s premium audio collection engineered for ultimate clarity and powerful bass.
-        Explore now and find the perfect beat for your space.
+        Temukan katalog e-commerce GnO untuk kebutuhan pelumas kendaraan, maintenance ringan,
+        hingga merchandise oil & gas yang siap kirim.
       </p>
 
       <div className="mt-8 flex flex-wrap justify-center gap-x-4 gap-y-2 sm:mt-10 sm:gap-x-8">
@@ -57,7 +49,10 @@ export function ProductCarousel() {
           <button
             key={cat}
             type="button"
-            onClick={() => setActiveCategory(cat)}
+            onClick={() => {
+              setActiveCategory(cat)
+              setPage(0)
+            }}
             className={cn(
               'px-1 pb-1 text-xs font-medium transition sm:text-sm',
               activeCategory === cat
@@ -87,7 +82,7 @@ export function ProductCarousel() {
         </div>
         <button
           type="button"
-          onClick={() => setPage((current) => (current + 1) % totalPages)}
+          onClick={() => setPage((safePage + 1) % totalPages)}
           className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-black px-5 py-2.5 text-sm font-medium text-white transition hover:bg-neutral-800 sm:w-auto"
         >
           Next

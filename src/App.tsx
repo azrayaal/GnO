@@ -7,6 +7,7 @@ import { NewsDetailPage } from '@/pages/public/NewsDetailPage'
 import { GalleryPage } from '@/pages/public/GalleryPage'
 import { ContactPage } from '@/pages/public/ContactPage'
 import { ProductDetailPage } from '@/pages/public/ProductDetailPage'
+import { ProductsPage } from '@/pages/public/ProductsPage'
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="news/:slug" element={<NewsDetailPage />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="contact" element={<ContactPage />} />
+          <Route path="products" element={<ProductsPage />} />
           <Route path="products/:slug" element={<ProductDetailPage />} />
         </Route>
 

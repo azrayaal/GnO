@@ -1,6 +1,6 @@
-# SIMBADDA — UI/UX POC
+# GnO — UI/UX POC
 
-Presentation-ready frontend mockup for **Simbadda Group**: public marketing website. No backend or real API integration.
+Presentation-ready frontend mockup for **GnO Group**: public marketing website. No backend or real API integration.
 
 ## Tech Stack
 
@@ -58,6 +58,4 @@ npm run preview
 ---
 
 **POC Demo** — Forms and actions are UI-only; no persistence or authentication backend.
-# simbadda
-# simbadda
 # GnO

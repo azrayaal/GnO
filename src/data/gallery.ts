@@ -4,7 +4,7 @@ import type { GalleryItem } from '@/types'
 export const galleryItems: GalleryItem[] = [
   {
     id: '1',
-    title: 'Karaoke Family Experience',
+    title: 'GnO Product Showcase',
     category: 'Lifestyle',
     image: assets.heroFamily,
     uploadedAt: '2026-05-10',
@@ -12,7 +12,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '2',
-    title: 'Gaming Setup Showcase',
+    title: 'Field Operation Support',
     category: 'Lifestyle',
     image: assets.lifestyleGaming,
     uploadedAt: '2026-05-08',
@@ -20,7 +20,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '3',
-    title: 'CST Portable Pro — Studio',
+    title: 'UltraFlow Product Render',
     category: 'Product',
     image: assets.product1,
     uploadedAt: '2026-05-01',
@@ -28,7 +28,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '4',
-    title: '2.1 Surround System',
+    title: 'Rig Crew Jacket Preview',
     category: 'Product',
     image: assets.product2,
     uploadedAt: '2026-04-28',
@@ -36,7 +36,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '5',
-    title: 'RGB Gaming Series',
+    title: 'GearMax Industrial Kit',
     category: 'Product',
     image: assets.product3,
     uploadedAt: '2026-04-22',
@@ -44,7 +44,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '6',
-    title: 'Enterprise Booth Display',
+    title: 'Warehouse Dispatch Line',
     category: 'Events',
     image: assets.heroDesign,
     uploadedAt: '2026-04-15',
@@ -52,15 +52,15 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '7',
-    title: 'Government Demo Session',
+    title: 'Regional Partner Meeting',
     category: 'Events',
-    image: assets.lifestyleGaming,
+    image: assets.lifestyleFamily,
     uploadedAt: '2026-04-02',
     size: '1.6 MB',
   },
   {
     id: '8',
-    title: 'Brand Logo Assets',
+    title: 'GnO Brand Assets',
     category: 'Branding',
     image: assets.logo,
     uploadedAt: '2026-03-20',

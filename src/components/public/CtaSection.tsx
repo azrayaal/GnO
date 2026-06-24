@@ -11,9 +11,9 @@ interface CtaSectionProps {
 }
 
 export function CtaSection({
-  title = 'Solusi Audio Enterprise untuk Instansi Anda',
-  description = 'Konsultasi gratis untuk kebutuhan meeting room, aula, dan fasilitas publik. Tim ahli Simbadda siap mendampingi proses pengadaan.',
-  primaryLabel = 'Hubungi Kami',
+  title = 'Kemitraan Distribusi GnO',
+  description = 'Program B2B untuk bengkel, armada, dan reseller yang membutuhkan supply pelumas serta merchandise secara konsisten.',
+  primaryLabel = 'Hubungi Tim Sales',
   primaryTo = '/contact',
   secondaryLabel = 'Lihat Galeri',
   secondaryTo = '/gallery',
