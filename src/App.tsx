@@ -8,10 +8,12 @@ import { GalleryPage } from '@/pages/public/GalleryPage'
 import { ContactPage } from '@/pages/public/ContactPage'
 import { ProductDetailPage } from '@/pages/public/ProductDetailPage'
 import { ProductsPage } from '@/pages/public/ProductsPage'
+import { ScrollToTop } from '@/components/ScrollToTop'
 
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route index element={<HomePage />} />
